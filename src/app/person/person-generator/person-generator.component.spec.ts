@@ -9,31 +9,49 @@ import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { PersonGeneratorComponent } from "./person-generator.component";
 
 describe("PersonGeneratorComponent", () => {
-	let component: PersonGeneratorComponent;
-	let fixture: ComponentFixture<PersonGeneratorComponent>;
+  let component: PersonGeneratorComponent;
+  let fixture: ComponentFixture<PersonGeneratorComponent>;
 
-	beforeEach(async(() => {
-		TestBed.configureTestingModule({
-			declarations: [PersonGeneratorComponent],
-			imports: [
-				MatCheckboxModule,
-				MatFormFieldModule,
-				MatInputModule,
-				MatButtonModule,
-				ReactiveFormsModule,
-				NoopAnimationsModule
-			]
-		})
-			.compileComponents();
-	}));
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [PersonGeneratorComponent],
+      imports: [
+        MatCheckboxModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        NoopAnimationsModule,
+      ],
+    }).compileComponents();
+  }));
 
-	beforeEach(() => {
-		fixture = TestBed.createComponent(PersonGeneratorComponent);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
-	});
+  beforeEach(() => {
+    fixture = TestBed.createComponent(PersonGeneratorComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-	it("should create", () => {
-		expect(component).toBeTruthy();
-	});
+  it("should create", () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe("checkValidation", () => {
+    it("should return true if none of the gender values are selected", () => {
+      component.generator.setValue({
+        count: [1000],
+        male: false,
+        female: false,
+      });
+      expect(component.checkValidation()).toBeTruthy();
+    });
+    it("should return false if at least one of the gender values are selected", () => {
+      component.generator.setValue({
+        count: [1000],
+        male: true,
+        female: false,
+      });
+      expect(component.checkValidation()).toBeFalsy();
+    });
+  });
 });
